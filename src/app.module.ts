@@ -35,7 +35,7 @@ export class AppModule implements NestModule {
     consumer.apply(PermissionMiddleware).forRoutes(
       {
         path: 'client',
-        method: RequestMethod.ALL,
+        method: RequestMethod.GET,
       },
       {
         path: 'operation',
