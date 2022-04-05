@@ -7,5 +7,6 @@ CREATE TABLE frentecorret.client (
 	email varchar NOT NULL,
 	"password" varchar NOT NULL,
 	deleted_at timestamp NULL,
-	CONSTRAINT client_pk PRIMARY KEY (id)
+	CONSTRAINT client_pk PRIMARY KEY (id),
+	CONSTRAINT client_fk FOREIGN KEY (address_id) REFERENCES frentecorret.address(id)
 );
