@@ -1,6 +1,7 @@
 import { IsOptional } from 'class-validator';
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
@@ -22,7 +23,7 @@ export class Client {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column()
@@ -35,4 +36,7 @@ export class Client {
   @OneToOne(() => Address)
   @JoinColumn({ name: 'address_id' })
   address?: Address;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 }
