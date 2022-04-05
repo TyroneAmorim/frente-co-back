@@ -1,8 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LoginDTO } from 'src/dto/login.dto';
-import { Client } from 'src/entities/client.entity';
-import { LoginResponse } from 'src/interfaces/login.interface';
+import { LoginDTO } from '../dto/login.dto';
+import { Client } from '../entities/client.entity';
+import { LoginResponse } from '../interfaces/login.interface';
 import { Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 

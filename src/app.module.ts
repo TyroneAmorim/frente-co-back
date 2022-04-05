@@ -38,7 +38,19 @@ export class AppModule implements NestModule {
         method: RequestMethod.GET,
       },
       {
+        path: 'client',
+        method: RequestMethod.PATCH,
+      },
+      {
+        path: 'client',
+        method: RequestMethod.DELETE,
+      },
+      {
         path: 'operation',
+        method: RequestMethod.ALL,
+      },
+      {
+        path: 'operation/packages',
         method: RequestMethod.ALL,
       },
     );

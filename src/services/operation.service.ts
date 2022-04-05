@@ -1,9 +1,10 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NewOperationDTO } from 'src/dto/newOperation.dto';
-import { Operation } from 'src/entities/operation.entity';
-import { Package } from 'src/entities/package.entity';
-import { CurrentUserData } from 'src/interfaces/currentUser.interface';
-import { OperationSaved } from 'src/interfaces/operationSaved.interface';
+import { NewOperationDTO } from '../dto/newOperation.dto';
+import { Operation } from '../entities/operation.entity';
+import { Package } from '../entities/package.entity';
+import { CurrentUserData } from '../interfaces/currentUser.interface';
+import { OperationSaved } from '../interfaces/operationSaved.interface';
 import { IsNull, Not, Repository, UpdateResult } from 'typeorm';
 
 export class OperationService {
@@ -143,7 +144,7 @@ export class OperationService {
   async new(
     operationData: NewOperationDTO,
     currentUser: CurrentUserData,
-  ): Promise<any> {
+  ): Promise<void> {
     this.totalMoneyPaperOperation =
       operationData.value / operationData.paperMoneyType;
 
@@ -172,6 +173,26 @@ export class OperationService {
     this.combineOperations().then(() =>
       this.closePackages().then(() => this.closeOperations()),
     );
-    return 'bi';
+  }
+
+  async getAll(currentUser: CurrentUserData): Promise<Operation[]> {
+    return this.operation.find({
+      where: {
+        clientId: currentUser.id,
+      },
+    });
+  }
+
+  async getPackages(currentUser: CurrentUserData): Promise<any[]> {
+    if (!currentUser) throw new UnauthorizedException();
+
+    return this.packageEntity
+      .createQueryBuilder('pck')
+      .distinct(true)
+      .innerJoin('operation', 'op', 'pck.id = op.package_id')
+      .where('op.client_id = :id', {
+        id: currentUser.id,
+      })
+      .getRawMany();
   }
 }
